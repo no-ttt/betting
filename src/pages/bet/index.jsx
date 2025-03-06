@@ -105,15 +105,38 @@ export default function Home() {
             value={voteName}
             onChange={handleChangeVoteName}
             sx={{ width: '50%' }}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 300,
+                },
+              },
+              anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'left',
+              },
+              transformOrigin: {
+                vertical: 'top',
+                horizontal: 'left',
+              },
+            }}
           >
-            <MenuItem value="tina">Tina</MenuItem>
+            <MenuItem value="tom">Tom</MenuItem>
             <MenuItem value="alice">Alice</MenuItem>
+            <MenuItem value="myra">Myra</MenuItem>
+            <MenuItem value="tina">Tina</MenuItem>
             <MenuItem value="ben">Ben</MenuItem>
+            <MenuItem value="hao">Hao</MenuItem>
+            <MenuItem value="gary">Gary</MenuItem>
+            <MenuItem value="michael">Michael</MenuItem>
+            <MenuItem value="derrick">Derrick</MenuItem>
+            <MenuItem value="jesse">Jesse</MenuItem>
+            <MenuItem value="sheng">Sheng</MenuItem>
           </Select>
         </div>
 
         <div className="form-row">
-          <div className="form-label">下注金額</div>
+          <div className="form-label">注數</div>
           <TextField
             id="bet"
             size="small"
