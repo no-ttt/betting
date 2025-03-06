@@ -26,13 +26,13 @@ export default function Home() {
       return
     }
 
-    if (record.data.remainingBets <= 0) {
-      alert('下注次數已用完')
+    if (!voteName || !bet) {
+      alert('請填寫完整下注信息')
       return
     }
 
-    if (!voteName || !bet) {
-      alert('請填寫完整下注信息')
+    if (bet > record.data.remainingBets) {
+      alert('下注次數已用完')
       return
     }
 
