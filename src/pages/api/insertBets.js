@@ -11,16 +11,11 @@ export default async function handler(req, res) {
   const { user_name, vote_name, bet_amount } = req.body
 
   try {
-    const updateVoteQuery = `
-      update current_vote set get_vote = get_vote + $2 where user_name = $1;
+    const insertQuery = `
+      insert into bet_record (user_name, vote_name, bet_amount) values ($1, $2, $3)
     `
-    await pool.query(updateVoteQuery, [vote_name, bet_amount])
+    await pool.query(insertQuery, [user_name, vote_name, bet_amount])
 
-    const updateRemainingBetsQuery = `
-      update current_vote set remain_count = remain_count - $2 where user_name = $1;
-    `
-    await pool.query(updateRemainingBetsQuery, [user_name, bet_amount])
-    
     return res.status(200).json({ 
       success: true
     });
