@@ -11,7 +11,8 @@ body {
   height: 100vh;
 }
 .container {
-  min-width: 500px;
+  min-width: 300px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   background-color: white;
@@ -44,4 +45,11 @@ body {
 }
 .form-label {
   width: 100px;
+}
+.rules-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 5px;
 }
