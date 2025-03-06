@@ -32,7 +32,7 @@ export default function Home() {
     }
 
     if (bet > record.data.remainingBets) {
-      alert('下注次數已用完')
+      alert('超過剩餘下注次數')
       return
     }
 
