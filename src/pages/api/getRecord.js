@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
     const totalVoteQuery = `
       select user_name, 
-        FORMAT(SUM(get_vote) OVER () / NULLIF(get_vote, 0), 'N2') AS total_vote_ratio
+        TRUNC(SUM(get_vote) OVER () / NULLIF(get_vote, 0), 2) AS total_vote_ratio
       from current_vote;
     `
     
