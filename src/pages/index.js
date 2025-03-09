@@ -6,11 +6,23 @@ export default function Home() {
   const [plus1, setPlus1] = useState(false)
   const [plus2, setPlus2] = useState(false)
   const [plus3, setPlus3] = useState(false)
-  const [plus4, setPlus4] = useState(false)
+  const [options, setOptions] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     localStorage.setItem('name', name)
+
+    fetch('/api/getName')
+      .then(res => res.json())
+      .then(data => {
+        setOptions(data.data.allName)
+        setIsLoading(false)
+      })
   }, [name])
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   const handleChangeName = (event) => {
     setName(event.target.value)
@@ -26,8 +38,7 @@ export default function Home() {
         user_name: name,
         plus1: Boolean(plus1),
         plus2: Boolean(plus2),
-        plus3: Boolean(plus3),
-        plus4: Boolean(plus4)
+        plus3: Boolean(plus3)
       })
     })
 
@@ -44,10 +55,6 @@ export default function Home() {
 
   const handleChangePlus3 = (event) => {
     setPlus3(event.target.checked)
-  }
-
-  const handleChangePlus4 = (event) => {
-    setPlus4(event.target.checked)
   }
 
   return (
@@ -79,18 +86,11 @@ export default function Home() {
               },
             }}
           >
-            <MenuItem value="wilson">Wilson</MenuItem>
-            <MenuItem value="tom">Tom</MenuItem>
-            <MenuItem value="alice">Alice</MenuItem>
-            <MenuItem value="myra">Myra</MenuItem>
-            <MenuItem value="tina">Tina</MenuItem>
-            <MenuItem value="ben">Ben</MenuItem>
-            <MenuItem value="hao">Hao</MenuItem>
-            <MenuItem value="gary">Gary</MenuItem>
-            <MenuItem value="michael">Michael</MenuItem>
-            <MenuItem value="derrick">Derrick</MenuItem>
-            <MenuItem value="jesse">Jesse</MenuItem>
-            <MenuItem value="sheng">Sheng</MenuItem>
+            {options.map((option, index) => (
+              <MenuItem key={index} value={option.user_name}>
+                {option.user_name.charAt(0).toUpperCase() + option.user_name.slice(1)}
+              </MenuItem>
+            ))}
           </Select>
         </div>
 
@@ -107,7 +107,7 @@ export default function Home() {
           <span className="text-[16px] font-bold">玩法說明</span>
           <span className="text-sm text-red-500">＊當其他人下注時，賠率會隨之變動</span>
         </div>
-        <div>1. <span className="font-bold">每個人總共會有 100 注，每注 10 元</span>，為了避免沒有人要下注導致開發者白做此系統，所以至少要下 10 注</div>
+        <div>1. <span className="font-bold">每個人最多會有 100 注，每注 10 元</span>，為了避免沒有人要下注導致開發者白做此系統，所以至少要下 10 注</div>
         <div>2. 下注是浮動的，所以當其他人下注時，賠率會隨之變動，重整畫面就可以看到最新的賠率</div>
         <div>3. 下注時，請選擇要下注的人，並輸入注數，按下注按鈕即可</div>
         <div>4. 可以下注不同的人，直到下滿 100 注為止</div>
@@ -137,7 +137,7 @@ export default function Home() {
           />
           <div>
             <div className="font-bold">你太讓我失望了 (All-in)</div>
-            <div>被壓的人如果沒有及格要喝 5 杯 shot (此規則不適用於 Tina ^^)</div>
+            <div>被壓的人如果沒有及格要喝 5 杯 shot</div>
           </div>
         </div>
         <div className="flex flex-row gap-2">
@@ -149,17 +149,6 @@ export default function Home() {
           <div>
             <div className="font-bold">等價交換</div>
             <div>我用 3 杯 shot 壓你贏，贏的話全部的人喝 6 杯 shot</div>
-          </div>
-        </div>
-        <div className="flex flex-row gap-2">
-          <Checkbox 
-            onChange={handleChangePlus4}
-            checked={plus4}
-            size="small"
-          />
-          <div>
-            <div className="font-bold">我不要玩了</div>
-            <div>喝掉 10 杯 shot 我就放過你</div>
           </div>
         </div>
       </div>

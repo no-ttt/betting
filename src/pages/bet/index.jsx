@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Select, MenuItem, TextField, Button } from '@mui/material'
+import { Select, MenuItem, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 
 export default function Home() {
   const [voteName, setVoteName] = useState('')
@@ -7,6 +7,7 @@ export default function Home() {
   const [bet, setBet] = useState(0)
   const [record, setRecord] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+  const [popup, setPopup] = useState(false)
 
   useEffect(() => {
     let name = localStorage.getItem('name')
@@ -157,17 +158,16 @@ export default function Home() {
         </Button>
 
         <div className="flex flex-col items-left w-full">
-          <div className="text-[#C4C4C4] mb-[10px]">
-            剩餘下注次數：
-            {record && record.data ? record.data.remainingBets : '-'}
-          </div>
-          <div className="mb-[10px]">下注統計</div>
-          <div className="bg-[#F5F5F5] rounded-[10px] p-[10px]">
-            {
-              record && record.data && record.data.bettingStatistics.map((item, index) => (
-                <div key={index}>{item.vote_name}：{item.total_bet_amount || '-'}</div>
-              ))
-            }
+          <div className="flex flex-row justify-between">
+            <div className="text-[#C4C4C4] mb-[10px]">
+              剩餘下注次數：
+              {record && record.data ? record.data.remainingBets : '-'}
+            </div>
+            <div className="text-[#ffbf25] underline cursor-pointer"
+              onClick={() => {
+                setPopup(true)
+              }}
+            >下注紀錄</div>
           </div>
         </div>
 
@@ -175,13 +175,55 @@ export default function Home() {
           <div className="mb-[10px]">賠率</div>
           <div className="bg-[#F5F5F5] rounded-[10px] p-[10px]">
             {
-              record && record.data && record.data.odds.map((item, index) => (
-                <div key={index}>{item.user_name}：{item.total_vote_ratio || '-'}</div>
-              ))
+              record && record.data && record.data.odds.filter(item => item.user_name !== "wilson")
+                .map((item, index) => (
+                  <div key={index}>{item.user_name}：{item.total_vote_ratio || '-'}</div>
+                ))
             }
           </div>
         </div>
       </div>
+
+      <Dialog open={popup} onClose={() => setPopup(false)}
+        PaperProps={{
+          style: {
+            width: '300px',
+            maxHeight: '300px',
+            overflow: 'auto',
+          },
+        }}
+      >
+        <DialogTitle>下注紀錄</DialogTitle>
+        <DialogContent>
+          <div className="bg-[#F5F5F5] rounded-[10px] p-[10px]">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th className="text-left">下注對象</th>
+                  <th className="text-right">注數</th>
+                  <th className="text-right">預期收益(元)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  record && record.data && record.data.bettingStatistics.map((item, index) => {
+                    const matchedOdd = record.data.odds.find(odd => odd.user_name === item.vote_name)
+                    const totalVoteRatio = matchedOdd ? matchedOdd.total_vote_ratio : null
+
+                    return (
+                      <tr key={index}>
+                        <td>{item.vote_name}</td>
+                        <td className="text-right">{item.total_bet_amount || '-'}</td>
+                        <td className="text-right">{totalVoteRatio ? (item.total_bet_amount * totalVoteRatio).toFixed(2) * 10 : '-'}</td>
+                      </tr>
+                    )
+                  })
+                }
+              </tbody>
+            </table>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
