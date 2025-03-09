@@ -95,7 +95,7 @@ export default function Home() {
 
   return (
     <div className="container">
-      <div className="title">下注下注</div>
+      <div className="title">我要下注</div>
 
       <div className="form-container">
         <div className="form-row">
