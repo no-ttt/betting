@@ -25,12 +25,18 @@ export default async function handler(req, res) {
     const bettingStatistics = await pool.query(bettingStatisticsQuery, [name])
 
     const totalVoteQuery = `
-      select user_name, 
-        TRUNC(SUM(get_vote) OVER () / NULLIF(get_vote, 0), 2) AS total_vote_ratio
+      select SUM(get_vote) as total_vote
+      from current_vote;
+    `
+    const totalVote = await pool.query(totalVoteQuery)
+
+    const currentVoteQuery = `
+      select user_name,
+        get_vote as current_vote
       from current_vote;
     `
     
-    const totalVote = await pool.query(totalVoteQuery)
+    const currentVote = await pool.query(currentVoteQuery)
 
     return res.status(200).json({ 
       success: true, 
@@ -38,7 +44,10 @@ export default async function handler(req, res) {
         userName: userData.rows[0]?.user_name,
         remainingBets: userData.rows[0]?.remain_count,
         bettingStatistics: bettingStatistics.rows,
-        odds: totalVote.rows
+        odds: currentVote.rows.map(row => ({
+          user_name: row.user_name,
+          total_vote_ratio: Math.floor((totalVote.rows[0].total_vote / row.current_vote) * 100) / 100
+        }))
       }
     })
   } catch (error) {

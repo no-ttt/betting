@@ -172,7 +172,9 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col items-left w-full">
-          <div className="mb-[10px]">賠率</div>
+          <div className="mb-[5px]">賠率</div>
+          <div className="text-[red] text-[14px] mb-[10px]">(此為根據單一獲勝者情況下所計算的預期回報，實際的回報會根據最終的下注比例來調整)</div>
+          
           <div className="bg-[#F5F5F5] rounded-[10px] p-[10px]">
             {
               record && record.data && record.data.odds.filter(item => item.user_name !== "wilson")
@@ -200,8 +202,8 @@ export default function Home() {
               <thead>
                 <tr>
                   <th className="text-left">下注對象</th>
-                  <th className="text-right">注數</th>
-                  <th className="text-right">預期收益(元)</th>
+                  <th className="text-left">注數</th>
+                  {/* <th className="text-right">預期收益(元)</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -213,8 +215,8 @@ export default function Home() {
                     return (
                       <tr key={index}>
                         <td>{item.vote_name}</td>
-                        <td className="text-right">{item.total_bet_amount || '-'}</td>
-                        <td className="text-right">{totalVoteRatio ? (item.total_bet_amount * totalVoteRatio).toFixed(2) * 10 : '-'}</td>
+                        <td className="text-left">{item.total_bet_amount || '-'}</td>
+                        {/* <td className="text-right">{totalVoteRatio ? (item.total_bet_amount * totalVoteRatio).toFixed(2) * 10 : '-'}</td> */}
                       </tr>
                     )
                   })
