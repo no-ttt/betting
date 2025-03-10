@@ -107,7 +107,7 @@ export default function Home() {
           <span className="text-[16px] font-bold">玩法說明</span>
           <span className="text-sm text-red-500">＊當其他人下注時，賠率會隨之變動</span>
         </div>
-        <div>1. <span className="font-bold">每個人最多會有 100 注，每注 10 元</span>，為了避免沒有人要下注導致開發者白做此系統，所以至少要下 10 注</div>
+        <div>1. <span className="font-bold">每個人最多會有 100 注</span>，為了避免沒有人要下注導致開發者白做此系統，所以至少要下 10 注</div>
         <div>2. 下注是浮動的，所以當其他人下注時，賠率會隨之變動，重整畫面就可以看到最新的賠率</div>
         <div>3. 下注時，請選擇要下注的人，並輸入注數，按下注按鈕即可</div>
         <div>4. 可以下注不同的人，直到下滿 100 注為止</div>

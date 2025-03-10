@@ -11,8 +11,10 @@ export default function Home() {
 
   useEffect(() => {
     let name = localStorage.getItem('name')
-    setUserName(name)
-    getRecord(name)
+    if (name) {
+      setUserName(name)
+      getRecord(name)
+    }
   }, [])
 
   const getRecord = async (name) => {
