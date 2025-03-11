@@ -137,6 +137,7 @@ export default function Home() {
             <MenuItem value="derrick">Derrick</MenuItem>
             <MenuItem value="jesse">Jesse</MenuItem>
             <MenuItem value="sheng">Sheng</MenuItem>
+            <MenuItem value="jacky">Jacky</MenuItem>
           </Select>
         </div>
 
