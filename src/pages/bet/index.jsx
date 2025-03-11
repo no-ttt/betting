@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { Select, MenuItem, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 
+const EXCLUDED_USERS = ['wilson', 'erin', 'janice', 'lynn', 'anita', 'jackie', 'yi', 'matt', 'alex', 'david', 'evin'];
+
 export default function Home() {
   const [voteName, setVoteName] = useState('')
   const [userName, setUserName] = useState(0)
@@ -179,10 +181,10 @@ export default function Home() {
           
           <div className="bg-[#F5F5F5] rounded-[10px] p-[10px]">
             {
-              record && record.data && record.data.odds.filter(item => item.user_name !== "wilson")
-                .map((item, index) => (
-                  <div key={index}>{item.user_name}：{item.total_vote_ratio || '-'}</div>
-                ))
+              record?.data?.odds?.filter(item => !EXCLUDED_USERS.includes(item.user_name))
+              .map((item, index) => (
+                <div key={index}>{item.user_name.charAt(0).toUpperCase() + item.user_name.slice(1)}：{item.total_vote_ratio || '-'}</div>
+              ))
             }
           </div>
         </div>

@@ -29,6 +29,11 @@ export default function Home() {
   }
 
   const handleNext = async () => {
+    if (name === '') {
+      alert('請先選擇名字')
+      return
+    }
+
     await fetch('/api/patchPlus', {
       method: 'PATCH',
       headers: {
